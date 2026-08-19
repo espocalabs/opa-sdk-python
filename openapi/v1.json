@@ -3437,11 +3437,11 @@
 				}
 			}
 		},
-		"/links/bulk-archive": {
+		"/links/bulk/archive": {
 			"post": {
 				"summary": "Bulk archive links",
-				"description": "Archives every link in `linkIds` in one call — same effect as `DELETE /links/{id}`, batched. All-or-nothing on membership: if any id does not belong to the organization (or does not exist), the whole request fails `not_found` — there is no partial/best-effort success. Reversible with `POST /links/bulk-restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
-				"operationId": "post_links_bulk-archive",
+				"description": "Archives every link in `linkIds` in one call — same effect as `DELETE /links/{id}`, batched. All-or-nothing on membership: if any id does not belong to the organization (or does not exist), the whole request fails `not_found` — there is no partial/best-effort success. Reversible with `POST /links/bulk/restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
+				"operationId": "post_links_bulk_archive",
 				"x-required-permissions": ["links:write"],
 				"x-required-plan-capability": "apiFull",
 				"x-required-plan": "pro",
@@ -3701,11 +3701,11 @@
 				}
 			}
 		},
-		"/links/bulk-restore": {
+		"/links/bulk/restore": {
 			"post": {
 				"summary": "Bulk restore archived links",
-				"description": "Un-archives every link in `linkIds` in one call, the counterpart to `POST /links/bulk-archive`. Same all-or-nothing membership check: any id outside the organization fails the whole request with `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
-				"operationId": "post_links_bulk-restore",
+				"description": "Un-archives every link in `linkIds` in one call, the counterpart to `POST /links/bulk/archive`. Same all-or-nothing membership check: any id outside the organization fails the whole request with `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
+				"operationId": "post_links_bulk_restore",
 				"x-required-permissions": ["links:write"],
 				"x-required-plan-capability": "apiFull",
 				"x-required-plan": "pro",
@@ -3965,11 +3965,11 @@
 				}
 			}
 		},
-		"/links/bulk-move": {
+		"/links/bulk/move": {
 			"post": {
 				"summary": "Bulk move links to a folder",
-				"description": "Moves every link in `linkIds` into `folderId` in one call. `folderId` must belong to the organization (`folder_not_found` otherwise). Same all-or-nothing membership check on `linkIds` as `POST /links/bulk-archive`: any id outside the organization fails the whole request with `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
-				"operationId": "post_links_bulk-move",
+				"description": "Moves every link in `linkIds` into `folderId` in one call. `folderId` must belong to the organization (`folder_not_found` otherwise). Same all-or-nothing membership check on `linkIds` as `POST /links/bulk/archive`: any id outside the organization fails the whole request with `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
+				"operationId": "post_links_bulk_move",
 				"x-required-permissions": ["links:write"],
 				"x-required-plan-capability": "apiFull",
 				"x-required-plan": "pro",
@@ -4233,11 +4233,11 @@
 				}
 			}
 		},
-		"/links/bulk-tag": {
+		"/links/bulk/tag": {
 			"post": {
 				"summary": "Bulk add tags to links",
-				"description": "Adds (never replaces) every tag in `tagIds` to every link in `linkIds`. Every id in `tagIds` must belong to the organization (`tags_not_found` otherwise). Re-tagging a link that already carries one of the tags is a no-op, not an error. Same all-or-nothing membership check on `linkIds` as `POST /links/bulk-archive`: any id outside the organization fails the whole request with `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
-				"operationId": "post_links_bulk-tag",
+				"description": "Adds (never replaces) every tag in `tagIds` to every link in `linkIds`. Every id in `tagIds` must belong to the organization (`tags_not_found` otherwise). Re-tagging a link that already carries one of the tags is a no-op, not an error. Same all-or-nothing membership check on `linkIds` as `POST /links/bulk/archive`: any id outside the organization fails the whole request with `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails `bulk_capability_required`.",
+				"operationId": "post_links_bulk_tag",
 				"x-required-permissions": ["links:write"],
 				"x-required-plan-capability": "apiFull",
 				"x-required-plan": "pro",

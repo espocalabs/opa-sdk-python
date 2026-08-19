@@ -55,7 +55,7 @@ class AnalyticsResource:
     def __init__(self, client: httpx.Client) -> None:
         self._client = client
 
-    def query(
+    def summary(
         self,
         *,
         from_: str,
@@ -117,7 +117,7 @@ class AnalyticsResource:
         domain: Optional[str] = None,
         options: Optional[RequestOptions] = None,
     ) -> AnalyticsTimeseries:
-        """Daily click counts across the same filters as :meth:`query`."""
+        """Daily click counts across the same filters as :meth:`summary`."""
         params = _query_params(
             from_=from_,
             to=to,
@@ -232,7 +232,7 @@ class AsyncAnalyticsResource:
     def __init__(self, client: httpx.AsyncClient) -> None:
         self._client = client
 
-    async def query(
+    async def summary(
         self,
         *,
         from_: str,

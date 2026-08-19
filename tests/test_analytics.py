@@ -40,11 +40,11 @@ def opa(mock_api: respx.MockRouter) -> OpaClient:
     return OpaClient(api_key="test_key")
 
 
-def test_query_summary(mock_api: respx.MockRouter, opa: OpaClient) -> None:
+def test_summary(mock_api: respx.MockRouter, opa: OpaClient) -> None:
     route = mock_api.get("/analytics/summary").mock(
         return_value=httpx.Response(200, json={"data": SUMMARY_JSON})
     )
-    summary = opa.analytics.query(from_="2026-01-01", to="2026-01-31")
+    summary = opa.analytics.summary(from_="2026-01-01", to="2026-01-31")
     assert summary.clicks == 120
     assert summary.unique_clicks == 88
     assert summary.range.from_ == "2026-01-01"
@@ -53,17 +53,17 @@ def test_query_summary(mock_api: respx.MockRouter, opa: OpaClient) -> None:
     assert sent_params["to"] == "2026-01-31"
 
 
-def test_query_summary_with_filters(mock_api: respx.MockRouter, opa: OpaClient) -> None:
+def test_summary_with_filters(mock_api: respx.MockRouter, opa: OpaClient) -> None:
     route = mock_api.get("/analytics/summary").mock(
         return_value=httpx.Response(200, json={"data": SUMMARY_JSON})
     )
-    opa.analytics.query(from_="2026-01-01", to="2026-01-31", link_id="lnk_1", country="BR")
+    opa.analytics.summary(from_="2026-01-01", to="2026-01-31", link_id="lnk_1", country="BR")
     params = route.calls.last.request.url.params
     assert params["linkId"] == "lnk_1"
     assert params["country"] == "BR"
 
 
-def test_query_summary_missing_range_is_validation_error(
+def test_summary_missing_range_is_validation_error(
     mock_api: respx.MockRouter, opa: OpaClient
 ) -> None:
     mock_api.get("/analytics/summary").mock(
@@ -78,7 +78,7 @@ def test_query_summary_missing_range_is_validation_error(
         )
     )
     with pytest.raises(ValidationError):
-        opa.analytics.query(from_="", to="")
+        opa.analytics.summary(from_="", to="")
 
 
 def test_timeseries(mock_api: respx.MockRouter, opa: OpaClient) -> None:
@@ -126,4 +126,61 @@ def test_events_all_auto_paginates(mock_api: respx.MockRouter, opa: OpaClient) -
     mock_api.get("/analytics/events").mock(side_effect=responder)
 
     click_ids = [event.click_id for event in opa.analytics.events_all()]
+    assert click_ids == ["clk_1", "clk_2"]
+
+
+@pytest.mark.asyncio
+async def test_async_summary(mock_api: respx.MockRouter) -> None:
+    from opa_sh import AsyncOpaClient
+
+    route = mock_api.get("/analytics/summary").mock(
+        return_value=httpx.Response(200, json={"data": SUMMARY_JSON})
+    )
+    async with AsyncOpaClient(api_key="test_key") as opa_async:
+        summary = await opa_async.analytics.summary(from_="2026-01-01", to="2026-01-31")
+    assert summary.clicks == 120
+    assert summary.unique_clicks == 88
+    sent_params = route.calls.last.request.url.params
+    assert sent_params["from"] == "2026-01-01"
+    assert sent_params["to"] == "2026-01-31"
+
+
+@pytest.mark.asyncio
+async def test_async_timeseries(mock_api: respx.MockRouter) -> None:
+    from opa_sh import AsyncOpaClient
+
+    mock_api.get("/analytics/timeseries").mock(
+        return_value=httpx.Response(200, json={"data": TIMESERIES_JSON})
+    )
+    async with AsyncOpaClient(api_key="test_key") as opa_async:
+        ts = await opa_async.analytics.timeseries(from_="2026-01-01", to="2026-01-31")
+    assert len(ts.points) == 2
+
+
+@pytest.mark.asyncio
+async def test_async_events_all_auto_paginates(mock_api: respx.MockRouter) -> None:
+    from opa_sh import AsyncOpaClient
+
+    page1 = {
+        "data": {
+            "items": [EVENT_JSON],
+            "pagination": {"hasMore": True, "next": "clk_1"},
+        }
+    }
+    page2 = {
+        "data": {
+            "items": [{**EVENT_JSON, "clickId": "clk_2"}],
+            "pagination": {"hasMore": False, "next": None},
+        }
+    }
+    call_count = {"n": 0}
+
+    def responder(request: httpx.Request) -> httpx.Response:
+        call_count["n"] += 1
+        return httpx.Response(200, json=page1 if call_count["n"] == 1 else page2)
+
+    mock_api.get("/analytics/events").mock(side_effect=responder)
+
+    async with AsyncOpaClient(api_key="test_key") as opa_async:
+        click_ids = [event.click_id async for event in opa_async.analytics.events_all()]
     assert click_ids == ["clk_1", "clk_2"]

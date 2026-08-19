@@ -18,15 +18,15 @@ def test_requires_api_key_async() -> None:
 
 def test_api_key_sent_as_header(mock_api: respx.MockRouter) -> None:
     route = mock_api.get("/domains").mock(return_value=httpx.Response(200, json={"data": []}))
-    with OpaClient(api_key="opa_live_test") as opa:
+    with OpaClient(api_key="opa_test") as opa:
         opa.domains.list()
-    assert route.calls.last.request.headers["x-api-key"] == "opa_live_test"
+    assert route.calls.last.request.headers["x-api-key"] == "opa_test"
     assert "authorization" not in route.calls.last.request.headers
 
 
 def test_api_key_constructs_working_client(mock_api: respx.MockRouter) -> None:
     route = mock_api.get("/domains").mock(return_value=httpx.Response(200, json={"data": []}))
-    with OpaClient(api_key="opa_live_test") as opa:
+    with OpaClient(api_key="opa_test") as opa:
         opa.domains.list()
     assert route.called
 
@@ -79,9 +79,9 @@ async def test_async_client_requires_auth() -> None:
 @pytest.mark.asyncio
 async def test_async_client_api_key_header(mock_api: respx.MockRouter) -> None:
     route = mock_api.get("/domains").mock(return_value=httpx.Response(200, json={"data": []}))
-    async with AsyncOpaClient(api_key="opa_live_test") as opa:
+    async with AsyncOpaClient(api_key="opa_test") as opa:
         await opa.domains.list()
-    assert route.calls.last.request.headers["x-api-key"] == "opa_live_test"
+    assert route.calls.last.request.headers["x-api-key"] == "opa_test"
 
 
 @pytest.mark.asyncio

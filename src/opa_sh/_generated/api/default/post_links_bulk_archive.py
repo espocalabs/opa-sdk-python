@@ -22,7 +22,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/links/bulk-archive",
+        "url": "/links/bulk/archive",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -107,7 +107,7 @@ def sync_detailed(
      Archives every link in `linkIds` in one call — same effect as `DELETE /links/{id}`, batched. All-or-
     nothing on membership: if any id does not belong to the organization (or does not exist), the whole
     request fails `not_found` — there is no partial/best-effort success. Reversible with `POST
-    /links/bulk-restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
+    /links/bulk/restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
     Args:
@@ -149,7 +149,7 @@ def sync(
      Archives every link in `linkIds` in one call — same effect as `DELETE /links/{id}`, batched. All-or-
     nothing on membership: if any id does not belong to the organization (or does not exist), the whole
     request fails `not_found` — there is no partial/best-effort success. Reversible with `POST
-    /links/bulk-restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
+    /links/bulk/restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
     Args:
@@ -185,7 +185,7 @@ async def asyncio_detailed(
      Archives every link in `linkIds` in one call — same effect as `DELETE /links/{id}`, batched. All-or-
     nothing on membership: if any id does not belong to the organization (or does not exist), the whole
     request fails `not_found` — there is no partial/best-effort success. Reversible with `POST
-    /links/bulk-restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
+    /links/bulk/restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
     Args:
@@ -225,7 +225,7 @@ async def asyncio(
      Archives every link in `linkIds` in one call — same effect as `DELETE /links/{id}`, batched. All-or-
     nothing on membership: if any id does not belong to the organization (or does not exist), the whole
     request fails `not_found` — there is no partial/best-effort success. Reversible with `POST
-    /links/bulk-restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
+    /links/bulk/restore`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
     Args:

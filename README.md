@@ -24,7 +24,7 @@ pip install opa-sh
 ```python
 from opa_sh import OpaClient
 
-opa = OpaClient(api_key="opa_live_...")
+opa = OpaClient(api_key="opa_...")
 
 link = opa.links.create(
     destination_url="https://example.com/black-friday",
@@ -41,7 +41,7 @@ opa.close()
 Or as a context manager, which closes the underlying connection pool for you:
 
 ```python
-with OpaClient(api_key="opa_live_...") as opa:
+with OpaClient(api_key="opa_...") as opa:
     link = opa.links.create(destination_url="https://example.com")
     print(link.short_link)
 ```
@@ -57,7 +57,7 @@ from opa_sh import AsyncOpaClient
 
 
 async def main() -> None:
-    async with AsyncOpaClient(api_key="opa_live_...") as opa:
+    async with AsyncOpaClient(api_key="opa_...") as opa:
         link = await opa.links.create(destination_url="https://example.com")
         print(link.short_link)
 
@@ -72,7 +72,7 @@ Get your API key at [opa.sh/settings/api-keys](https://app.opa.sh/settings/api-k
 Server-side only — never expose a key from a browser bundle or a mobile app:
 
 ```python
-opa = OpaClient(api_key="opa_live_...")
+opa = OpaClient(api_key="opa_...")
 ```
 
 Base URL defaults to `https://api.opa.sh/v1`. Override it for staging or a
@@ -114,7 +114,7 @@ except OpaError as e:
 | `PermissionDeniedError`  | 403         | Valid credential, insufficient permission or plan capability.     |
 | `NotFoundError`          | 404         | The resource doesn't exist.                                       |
 | `ConflictError`          | 409         | E.g. a custom `key` already taken, or no domain available.        |
-| `ValidationError`        | 400 / 422   | Request body or query params failed validation.                   |
+| `ValidationError`        | 422         | Request body or query params failed validation.                   |
 | `RateLimitError`         | 429         | Rate limit hit — see `.retry_after` (seconds).                     |
 | `ServerError`            | 5xx         | Opa API had an internal error. Safe to retry.                     |
 | `NetworkError`           | —           | Connection reset, DNS failure, timeout — never reached the API.    |
@@ -165,7 +165,7 @@ opa.links.bulk_tag(["lnk_a", "lnk_b"], ["tag_q1"])
 ### Analytics
 
 ```python
-summary = opa.analytics.query(from_="2026-01-01", to="2026-01-31", link_id="lnk_xxx")
+summary = opa.analytics.summary(from_="2026-01-01", to="2026-01-31", link_id="lnk_xxx")
 print(summary.clicks, summary.unique_clicks)
 
 timeseries = opa.analytics.timeseries(from_="2026-01-01", to="2026-01-31", link_id="lnk_xxx")

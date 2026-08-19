@@ -244,7 +244,7 @@ class LinksResource:
     ) -> BulkArchiveResult:
         """Archives up to the given set of links in one call."""
         response = self._client.post(
-            "/links/bulk-archive",
+            "/links/bulk/archive",
             json={"linkIds": link_ids},
             timeout=request_timeout(options),
         )
@@ -256,7 +256,7 @@ class LinksResource:
     ) -> BulkRestoreResult:
         """Restores a set of previously archived links in one call."""
         response = self._client.post(
-            "/links/bulk-restore",
+            "/links/bulk/restore",
             json={"linkIds": link_ids},
             timeout=request_timeout(options),
         )
@@ -272,7 +272,7 @@ class LinksResource:
     ) -> BulkMoveResult:
         """Moves a set of links into a folder in one call."""
         response = self._client.post(
-            "/links/bulk-move",
+            "/links/bulk/move",
             json={"linkIds": link_ids, "folderId": folder_id},
             timeout=request_timeout(options),
         )
@@ -288,7 +288,7 @@ class LinksResource:
     ) -> BulkTagResult:
         """Adds a set of tags to a set of links in one call."""
         response = self._client.post(
-            "/links/bulk-tag",
+            "/links/bulk/tag",
             json={"linkIds": link_ids, "tagIds": tag_ids},
             timeout=request_timeout(options),
         )
@@ -505,7 +505,7 @@ class AsyncLinksResource:
         self, link_ids: builtins.list[str], *, options: Optional[RequestOptions] = None
     ) -> BulkArchiveResult:
         response = await self._client.post(
-            "/links/bulk-archive",
+            "/links/bulk/archive",
             json={"linkIds": link_ids},
             timeout=request_timeout(options),
         )
@@ -516,7 +516,7 @@ class AsyncLinksResource:
         self, link_ids: builtins.list[str], *, options: Optional[RequestOptions] = None
     ) -> BulkRestoreResult:
         response = await self._client.post(
-            "/links/bulk-restore",
+            "/links/bulk/restore",
             json={"linkIds": link_ids},
             timeout=request_timeout(options),
         )
@@ -531,7 +531,7 @@ class AsyncLinksResource:
         options: Optional[RequestOptions] = None,
     ) -> BulkMoveResult:
         response = await self._client.post(
-            "/links/bulk-move",
+            "/links/bulk/move",
             json={"linkIds": link_ids, "folderId": folder_id},
             timeout=request_timeout(options),
         )
@@ -546,7 +546,7 @@ class AsyncLinksResource:
         options: Optional[RequestOptions] = None,
     ) -> BulkTagResult:
         response = await self._client.post(
-            "/links/bulk-tag",
+            "/links/bulk/tag",
             json={"linkIds": link_ids, "tagIds": tag_ids},
             timeout=request_timeout(options),
         )

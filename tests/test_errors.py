@@ -37,7 +37,6 @@ def test_success_response_is_noop() -> None:
         (403, PermissionDeniedError),
         (404, NotFoundError),
         (409, ConflictError),
-        (400, ValidationError),
         (422, ValidationError),
         (500, ServerError),
         (502, ServerError),
@@ -61,6 +60,20 @@ def test_unrecognized_4xx_status_falls_back_to_base_error() -> None:
         raise_for_response(response)
     assert type(exc_info.value) is OpaError
     assert exc_info.value.status == 418
+
+
+def test_400_is_not_validation_error() -> None:
+    """The `/api/v1` `CODE_TO_STATUS` map has no path that ever produces a
+    400 — `validation_error` is fixed at 422. A stray 400 (e.g. from a
+    proxy in front of the API) should not be misreported as a
+    :class:`ValidationError`; it falls through to the generic
+    :class:`OpaError`, same as any other unmapped 4xx."""
+    response = _response(400, {"code": "some_code", "message": "boom"})
+    with pytest.raises(OpaError) as exc_info:
+        raise_for_response(response)
+    assert type(exc_info.value) is OpaError
+    assert not isinstance(exc_info.value, ValidationError)
+    assert exc_info.value.status == 400
 
 
 def test_rate_limit_error_parses_retry_after_seconds() -> None:

@@ -22,7 +22,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/links/bulk-tag",
+        "url": "/links/bulk/tag",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -107,7 +107,7 @@ def sync_detailed(
      Adds (never replaces) every tag in `tagIds` to every link in `linkIds`. Every id in `tagIds` must
     belong to the organization (`tags_not_found` otherwise). Re-tagging a link that already carries one
     of the tags is a no-op, not an error. Same all-or-nothing membership check on `linkIds` as `POST
-    /links/bulk-archive`: any id outside the organization fails the whole request with `not_found`.
+    /links/bulk/archive`: any id outside the organization fails the whole request with `not_found`.
     Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
@@ -150,7 +150,7 @@ def sync(
      Adds (never replaces) every tag in `tagIds` to every link in `linkIds`. Every id in `tagIds` must
     belong to the organization (`tags_not_found` otherwise). Re-tagging a link that already carries one
     of the tags is a no-op, not an error. Same all-or-nothing membership check on `linkIds` as `POST
-    /links/bulk-archive`: any id outside the organization fails the whole request with `not_found`.
+    /links/bulk/archive`: any id outside the organization fails the whole request with `not_found`.
     Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
@@ -187,7 +187,7 @@ async def asyncio_detailed(
      Adds (never replaces) every tag in `tagIds` to every link in `linkIds`. Every id in `tagIds` must
     belong to the organization (`tags_not_found` otherwise). Re-tagging a link that already carries one
     of the tags is a no-op, not an error. Same all-or-nothing membership check on `linkIds` as `POST
-    /links/bulk-archive`: any id outside the organization fails the whole request with `not_found`.
+    /links/bulk/archive`: any id outside the organization fails the whole request with `not_found`.
     Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
@@ -228,7 +228,7 @@ async def asyncio(
      Adds (never replaces) every tag in `tagIds` to every link in `linkIds`. Every id in `tagIds` must
     belong to the organization (`tags_not_found` otherwise). Re-tagging a link that already carries one
     of the tags is a no-op, not an error. Same all-or-nothing membership check on `linkIds` as `POST
-    /links/bulk-archive`: any id outside the organization fails the whole request with `not_found`.
+    /links/bulk/archive`: any id outside the organization fails the whole request with `not_found`.
     Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 

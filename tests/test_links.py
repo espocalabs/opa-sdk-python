@@ -195,7 +195,7 @@ def test_list_all_links_auto_paginates(mock_api: respx.MockRouter, opa: OpaClien
 
 
 def test_bulk_archive(mock_api: respx.MockRouter, opa: OpaClient) -> None:
-    mock_api.post("/links/bulk-archive").mock(
+    mock_api.post("/links/bulk/archive").mock(
         return_value=httpx.Response(200, json={"data": {"archivedCount": 2}})
     )
     result = opa.links.bulk_archive(["lnk_1", "lnk_2"])
@@ -203,7 +203,7 @@ def test_bulk_archive(mock_api: respx.MockRouter, opa: OpaClient) -> None:
 
 
 def test_bulk_restore(mock_api: respx.MockRouter, opa: OpaClient) -> None:
-    mock_api.post("/links/bulk-restore").mock(
+    mock_api.post("/links/bulk/restore").mock(
         return_value=httpx.Response(200, json={"data": {"restoredCount": 2}})
     )
     result = opa.links.bulk_restore(["lnk_1", "lnk_2"])
@@ -211,7 +211,7 @@ def test_bulk_restore(mock_api: respx.MockRouter, opa: OpaClient) -> None:
 
 
 def test_bulk_move(mock_api: respx.MockRouter, opa: OpaClient) -> None:
-    mock_api.post("/links/bulk-move").mock(
+    mock_api.post("/links/bulk/move").mock(
         return_value=httpx.Response(200, json={"data": {"movedCount": 3}})
     )
     result = opa.links.bulk_move(["lnk_1", "lnk_2", "lnk_3"], "folder_1")
@@ -219,7 +219,7 @@ def test_bulk_move(mock_api: respx.MockRouter, opa: OpaClient) -> None:
 
 
 def test_bulk_tag(mock_api: respx.MockRouter, opa: OpaClient) -> None:
-    mock_api.post("/links/bulk-tag").mock(
+    mock_api.post("/links/bulk/tag").mock(
         return_value=httpx.Response(200, json={"data": {"taggedCount": 1}})
     )
     result = opa.links.bulk_tag(["lnk_1"], ["tag_1"])
@@ -249,6 +249,35 @@ async def test_async_create_and_get_link(mock_api: respx.MockRouter) -> None:
         created = await opa_async.links.create(destination_url="https://example.com")
         fetched = await opa_async.links.get("lnk_1")
     assert created.id == fetched.id == "lnk_1"
+
+
+@pytest.mark.asyncio
+async def test_async_bulk_operations(mock_api: respx.MockRouter) -> None:
+    from opa_sh import AsyncOpaClient
+
+    mock_api.post("/links/bulk/archive").mock(
+        return_value=httpx.Response(200, json={"data": {"archivedCount": 2}})
+    )
+    mock_api.post("/links/bulk/restore").mock(
+        return_value=httpx.Response(200, json={"data": {"restoredCount": 2}})
+    )
+    mock_api.post("/links/bulk/move").mock(
+        return_value=httpx.Response(200, json={"data": {"movedCount": 3}})
+    )
+    mock_api.post("/links/bulk/tag").mock(
+        return_value=httpx.Response(200, json={"data": {"taggedCount": 1}})
+    )
+
+    async with AsyncOpaClient(api_key="test_key") as opa_async:
+        archived = await opa_async.links.bulk_archive(["lnk_1", "lnk_2"])
+        restored = await opa_async.links.bulk_restore(["lnk_1", "lnk_2"])
+        moved = await opa_async.links.bulk_move(["lnk_1", "lnk_2", "lnk_3"], "folder_1")
+        tagged = await opa_async.links.bulk_tag(["lnk_1"], ["tag_1"])
+
+    assert archived.archived_count == 2
+    assert restored.restored_count == 2
+    assert moved.moved_count == 3
+    assert tagged.tagged_count == 1
 
 
 @pytest.mark.asyncio

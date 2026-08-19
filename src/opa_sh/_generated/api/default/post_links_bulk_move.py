@@ -22,7 +22,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/links/bulk-move",
+        "url": "/links/bulk/move",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -106,7 +106,7 @@ def sync_detailed(
 
      Moves every link in `linkIds` into `folderId` in one call. `folderId` must belong to the
     organization (`folder_not_found` otherwise). Same all-or-nothing membership check on `linkIds` as
-    `POST /links/bulk-archive`: any id outside the organization fails the whole request with
+    `POST /links/bulk/archive`: any id outside the organization fails the whole request with
     `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
@@ -148,7 +148,7 @@ def sync(
 
      Moves every link in `linkIds` into `folderId` in one call. `folderId` must belong to the
     organization (`folder_not_found` otherwise). Same all-or-nothing membership check on `linkIds` as
-    `POST /links/bulk-archive`: any id outside the organization fails the whole request with
+    `POST /links/bulk/archive`: any id outside the organization fails the whole request with
     `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
@@ -184,7 +184,7 @@ async def asyncio_detailed(
 
      Moves every link in `linkIds` into `folderId` in one call. `folderId` must belong to the
     organization (`folder_not_found` otherwise). Same all-or-nothing membership check on `linkIds` as
-    `POST /links/bulk-archive`: any id outside the organization fails the whole request with
+    `POST /links/bulk/archive`: any id outside the organization fails the whole request with
     `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 
@@ -224,7 +224,7 @@ async def asyncio(
 
      Moves every link in `linkIds` into `folderId` in one call. `folderId` must belong to the
     organization (`folder_not_found` otherwise). Same all-or-nothing membership check on `linkIds` as
-    `POST /links/bulk-archive`: any id outside the organization fails the whole request with
+    `POST /links/bulk/archive`: any id outside the organization fails the whole request with
     `not_found`. Requires the `bulk` plan capability (Start plan or above) — otherwise fails
     `bulk_capability_required`.
 

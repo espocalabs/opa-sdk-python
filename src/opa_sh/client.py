@@ -32,7 +32,7 @@ class OpaClient:
 
     Example:
         >>> from opa_sh import OpaClient
-        >>> opa = OpaClient(api_key="opa_live_...")
+        >>> opa = OpaClient(api_key="opa_...")
         >>> link = opa.links.create(destination_url="https://example.com", domain="opa.sh")
         >>> link.short_link
 
@@ -92,7 +92,7 @@ class AsyncOpaClient:
 
     Example:
         >>> from opa_sh import AsyncOpaClient
-        >>> async with AsyncOpaClient(api_key="opa_live_...") as opa:
+        >>> async with AsyncOpaClient(api_key="opa_...") as opa:
         ...     link = await opa.links.create(destination_url="https://example.com")
         ...     print(link.short_link)
     """

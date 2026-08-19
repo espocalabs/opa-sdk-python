@@ -102,7 +102,7 @@ class ConflictError(OpaError):
 
 
 class ValidationError(OpaError):
-    """400/422 — the request body or query parameters failed validation.
+    """422 — the request body or query parameters failed validation.
 
     ``details`` typically includes an ``"issues"`` list of
     ``{"path": str, "message": str}`` entries pinpointing the offending
@@ -148,7 +148,10 @@ _STATUS_TO_ERROR: "dict[int, type[OpaError]]" = {
     403: PermissionDeniedError,
     404: NotFoundError,
     409: ConflictError,
-    400: ValidationError,
+    # The API's CODE_TO_STATUS map has no path that produces 400 —
+    # `validation_error` is fixed at 422. A stray 400 (e.g. from a proxy in
+    # front of the API) falls through to the generic OpaError below rather
+    # than being misreported as a validation failure.
     422: ValidationError,
     429: RateLimitError,
 }
