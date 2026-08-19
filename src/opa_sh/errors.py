@@ -77,7 +77,7 @@ class OpaError(Exception):
 
 
 class AuthenticationError(OpaError):
-    """401 — the API key or bearer token is missing or invalid."""
+    """401 — the API key is missing or invalid."""
 
 
 class PermissionDeniedError(OpaError):

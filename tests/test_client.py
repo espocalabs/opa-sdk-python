@@ -6,13 +6,13 @@ from opa_sh import AsyncOpaClient, OpaClient
 from opa_sh.client import DEFAULT_BASE_URL
 
 
-def test_requires_api_key_or_bearer_token() -> None:
-    with pytest.raises(ValueError, match=r"api_key.*bearer_token"):
+def test_requires_api_key() -> None:
+    with pytest.raises(ValueError, match=r"api_key"):
         OpaClient()
 
 
-def test_requires_api_key_or_bearer_token_async() -> None:
-    with pytest.raises(ValueError, match=r"api_key.*bearer_token"):
+def test_requires_api_key_async() -> None:
+    with pytest.raises(ValueError, match=r"api_key"):
         AsyncOpaClient()
 
 
@@ -24,12 +24,11 @@ def test_api_key_sent_as_header(mock_api: respx.MockRouter) -> None:
     assert "authorization" not in route.calls.last.request.headers
 
 
-def test_bearer_token_sent_as_authorization_header(mock_api: respx.MockRouter) -> None:
+def test_api_key_constructs_working_client(mock_api: respx.MockRouter) -> None:
     route = mock_api.get("/domains").mock(return_value=httpx.Response(200, json={"data": []}))
-    with OpaClient(bearer_token="eyJhbGci...") as opa:
+    with OpaClient(api_key="opa_live_test") as opa:
         opa.domains.list()
-    assert route.calls.last.request.headers["authorization"] == "Bearer eyJhbGci..."
-    assert "x-api-key" not in route.calls.last.request.headers
+    assert route.called
 
 
 def test_user_agent_header(mock_api: respx.MockRouter) -> None:

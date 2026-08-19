@@ -69,15 +69,10 @@ Get your API key at [opa.sh/settings/api-keys](https://app.opa.sh/settings/api-k
 
 ## Authentication
 
-Two options, both server-side only — never expose a key from a browser bundle
-or a mobile app:
+Server-side only — never expose a key from a browser bundle or a mobile app:
 
 ```python
-# API key (recommended for server integrations)
 opa = OpaClient(api_key="opa_live_...")
-
-# Bearer token (for user-scoped JWT sessions)
-opa = OpaClient(bearer_token="eyJhbGci...")
 ```
 
 Base URL defaults to `https://api.opa.sh/v1`. Override it for staging or a
@@ -115,7 +110,7 @@ except OpaError as e:
 
 | Exception               | HTTP status | Meaning                                                          |
 | ------------------------ | ----------- | ----------------------------------------------------------------- |
-| `AuthenticationError`    | 401         | Missing or invalid API key / bearer token.                        |
+| `AuthenticationError`    | 401         | Missing or invalid API key.                                       |
 | `PermissionDeniedError`  | 403         | Valid credential, insufficient permission or plan capability.     |
 | `NotFoundError`          | 404         | The resource doesn't exist.                                       |
 | `ConflictError`          | 409         | E.g. a custom `key` already taken, or no domain available.        |
@@ -213,25 +208,6 @@ opa = OpaClient(
     retry_delay=1.0,  # default: 1.0s base, doubles each attempt (capped at 20s)
 )
 ```
-
-## Idempotency
-
-Pass `idempotency_key` via `RequestOptions` on mutating calls to make retries
-safe. The API deduplicates requests with the same key for 24 hours.
-
-```python
-import uuid
-from opa_sh import RequestOptions
-
-link = opa.links.create(
-    destination_url="https://example.com",
-    domain="opa.sh",
-    options=RequestOptions(idempotency_key=str(uuid.uuid4())),
-)
-```
-
-Generate one key per business operation — not one per HTTP attempt, since the
-whole point is that retries of the *same* operation reuse it.
 
 ## Pagination
 

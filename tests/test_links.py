@@ -226,15 +226,16 @@ def test_bulk_tag(mock_api: respx.MockRouter, opa: OpaClient) -> None:
     assert result.tagged_count == 1
 
 
-def test_idempotency_key_header_sent(mock_api: respx.MockRouter, opa: OpaClient) -> None:
+def test_request_options_timeout_override(mock_api: respx.MockRouter, opa: OpaClient) -> None:
     from opa_sh import RequestOptions
 
     route = mock_api.post("/links").mock(return_value=httpx.Response(201, json={"data": LINK_JSON}))
-    opa.links.create(
+    link = opa.links.create(
         destination_url="https://example.com",
-        options=RequestOptions(idempotency_key="req_abc123"),
+        options=RequestOptions(timeout=5.0),
     )
-    assert route.calls.last.request.headers["idempotency-key"] == "req_abc123"
+    assert route.called
+    assert link.id == "lnk_1"
 
 
 @pytest.mark.asyncio

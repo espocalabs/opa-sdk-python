@@ -19,22 +19,16 @@ DEFAULT_RETRIES = 3
 DEFAULT_RETRY_DELAY = 1.0
 
 
-def _auth_headers(api_key: Optional[str], bearer_token: Optional[str]) -> dict[str, str]:
-    if not api_key and not bearer_token:
-        raise ValueError("Either `api_key` or `bearer_token` is required.")
-    headers = {"User-Agent": f"opa-sh/{__version__}"}
-    if api_key:
-        headers["x-api-key"] = api_key
-    elif bearer_token:
-        headers["Authorization"] = f"Bearer {bearer_token}"
-    return headers
+def _auth_headers(api_key: Optional[str]) -> dict[str, str]:
+    if not api_key:
+        raise ValueError("`api_key` is required.")
+    return {"x-api-key": api_key, "User-Agent": f"opa-sh/{__version__}"}
 
 
 class OpaClient:
     """Synchronous SDK client for the Opa link shortener API.
 
-    Requires exactly one of ``api_key`` or ``bearer_token``. Get an API key
-    at https://app.opa.sh/settings/api-keys.
+    Requires ``api_key``. Get one at https://app.opa.sh/settings/api-keys.
 
     Example:
         >>> from opa_sh import OpaClient
@@ -53,14 +47,13 @@ class OpaClient:
         self,
         *,
         api_key: Optional[str] = None,
-        bearer_token: Optional[str] = None,
         base_url: str = DEFAULT_BASE_URL,
         timeout: float = DEFAULT_TIMEOUT,
         retries: int = DEFAULT_RETRIES,
         retry_delay: float = DEFAULT_RETRY_DELAY,
         http_client: Optional[httpx.Client] = None,
     ) -> None:
-        headers = _auth_headers(api_key, bearer_token)
+        headers = _auth_headers(api_key)
 
         if http_client is not None:
             self._client = http_client
@@ -108,14 +101,13 @@ class AsyncOpaClient:
         self,
         *,
         api_key: Optional[str] = None,
-        bearer_token: Optional[str] = None,
         base_url: str = DEFAULT_BASE_URL,
         timeout: float = DEFAULT_TIMEOUT,
         retries: int = DEFAULT_RETRIES,
         retry_delay: float = DEFAULT_RETRY_DELAY,
         http_client: Optional[httpx.AsyncClient] = None,
     ) -> None:
-        headers = _auth_headers(api_key, bearer_token)
+        headers = _auth_headers(api_key)
 
         if http_client is not None:
             self._client = http_client

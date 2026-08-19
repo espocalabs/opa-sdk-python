@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from .._internal.request_options import RequestOptions, request_headers, request_timeout
+from .._internal.request_options import RequestOptions, request_timeout
 from .._internal.serialize import build_body, build_query
 from ..errors import raise_for_response
 from ..models import (
@@ -48,7 +48,6 @@ class LinksResource:
         response = self._client.get(
             "/links",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -75,9 +74,7 @@ class LinksResource:
 
     def get(self, link_id: str, *, options: Optional[RequestOptions] = None) -> Link:
         """Fetches a single link by id."""
-        response = self._client.get(
-            f"/links/{link_id}", headers=request_headers(options), timeout=request_timeout(options)
-        )
+        response = self._client.get(f"/links/{link_id}", timeout=request_timeout(options))
         raise_for_response(response)
         return Link.model_validate(response.json()["data"])
 
@@ -142,7 +139,6 @@ class LinksResource:
         response = self._client.post(
             "/links",
             json=body,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -210,7 +206,6 @@ class LinksResource:
         response = self._client.patch(
             f"/links/{link_id}",
             json=body,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -220,9 +215,7 @@ class LinksResource:
         self, link_id: str, *, options: Optional[RequestOptions] = None
     ) -> ArchiveLinkResult:
         """Archives a link (reversible with :meth:`restore`). The link keeps resolving."""
-        response = self._client.delete(
-            f"/links/{link_id}", headers=request_headers(options), timeout=request_timeout(options)
-        )
+        response = self._client.delete(f"/links/{link_id}", timeout=request_timeout(options))
         raise_for_response(response)
         return ArchiveLinkResult.model_validate(response.json()["data"])
 
@@ -232,7 +225,6 @@ class LinksResource:
         """Un-archives a link."""
         response = self._client.post(
             f"/links/{link_id}/restore",
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -242,7 +234,6 @@ class LinksResource:
         """Duplicates a link, returning the newly created copy in full detail."""
         response = self._client.post(
             f"/links/{link_id}/duplicate",
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -255,7 +246,6 @@ class LinksResource:
         response = self._client.post(
             "/links/bulk-archive",
             json={"linkIds": link_ids},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -268,7 +258,6 @@ class LinksResource:
         response = self._client.post(
             "/links/bulk-restore",
             json={"linkIds": link_ids},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -285,7 +274,6 @@ class LinksResource:
         response = self._client.post(
             "/links/bulk-move",
             json={"linkIds": link_ids, "folderId": folder_id},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -302,7 +290,6 @@ class LinksResource:
         response = self._client.post(
             "/links/bulk-tag",
             json={"linkIds": link_ids, "tagIds": tag_ids},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -331,7 +318,6 @@ class AsyncLinksResource:
         response = await self._client.get(
             "/links",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -359,9 +345,7 @@ class AsyncLinksResource:
         return apaginate(fetch_page)
 
     async def get(self, link_id: str, *, options: Optional[RequestOptions] = None) -> Link:
-        response = await self._client.get(
-            f"/links/{link_id}", headers=request_headers(options), timeout=request_timeout(options)
-        )
+        response = await self._client.get(f"/links/{link_id}", timeout=request_timeout(options))
         raise_for_response(response)
         return Link.model_validate(response.json()["data"])
 
@@ -423,7 +407,6 @@ class AsyncLinksResource:
         response = await self._client.post(
             "/links",
             json=body,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -488,7 +471,6 @@ class AsyncLinksResource:
         response = await self._client.patch(
             f"/links/{link_id}",
             json=body,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -497,9 +479,7 @@ class AsyncLinksResource:
     async def archive(
         self, link_id: str, *, options: Optional[RequestOptions] = None
     ) -> ArchiveLinkResult:
-        response = await self._client.delete(
-            f"/links/{link_id}", headers=request_headers(options), timeout=request_timeout(options)
-        )
+        response = await self._client.delete(f"/links/{link_id}", timeout=request_timeout(options))
         raise_for_response(response)
         return ArchiveLinkResult.model_validate(response.json()["data"])
 
@@ -508,7 +488,6 @@ class AsyncLinksResource:
     ) -> RestoreLinkResult:
         response = await self._client.post(
             f"/links/{link_id}/restore",
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -517,7 +496,6 @@ class AsyncLinksResource:
     async def duplicate(self, link_id: str, *, options: Optional[RequestOptions] = None) -> Link:
         response = await self._client.post(
             f"/links/{link_id}/duplicate",
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -529,7 +507,6 @@ class AsyncLinksResource:
         response = await self._client.post(
             "/links/bulk-archive",
             json={"linkIds": link_ids},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -541,7 +518,6 @@ class AsyncLinksResource:
         response = await self._client.post(
             "/links/bulk-restore",
             json={"linkIds": link_ids},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -557,7 +533,6 @@ class AsyncLinksResource:
         response = await self._client.post(
             "/links/bulk-move",
             json={"linkIds": link_ids, "folderId": folder_id},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -573,7 +548,6 @@ class AsyncLinksResource:
         response = await self._client.post(
             "/links/bulk-tag",
             json={"linkIds": link_ids, "tagIds": tag_ids},
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)

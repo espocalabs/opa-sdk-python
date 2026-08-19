@@ -5,6 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-08-19
+
+### Fixed
+
+- Removed the `bearer_token` client option. The Opa API only accepts
+  `x-api-key` authentication — bearer was exposed by mistake and would
+  result in rejected requests. `api_key` is now required at construction.
+- Removed the `idempotency_key` option from `RequestOptions`. The Opa API
+  does not support an `Idempotency-Key` header — it was exposed by mistake
+  and had no effect on the server. `RequestOptions` now only carries
+  `timeout`.
+
 ## [0.1.0] - 2026-08-19
 
 ### Added

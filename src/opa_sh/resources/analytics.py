@@ -5,7 +5,7 @@ from typing import Any, Optional
 
 import httpx
 
-from .._internal.request_options import RequestOptions, request_headers, request_timeout
+from .._internal.request_options import RequestOptions, request_timeout
 from .._internal.serialize import build_query
 from ..errors import raise_for_response
 from ..models import AnalyticsEvent, AnalyticsSummary, AnalyticsTimeseries, Page
@@ -94,7 +94,6 @@ class AnalyticsResource:
         response = self._client.get(
             "/analytics/summary",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -137,7 +136,6 @@ class AnalyticsResource:
         response = self._client.get(
             "/analytics/timeseries",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -180,7 +178,6 @@ class AnalyticsResource:
         response = self._client.get(
             "/analytics/events",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -271,7 +268,6 @@ class AsyncAnalyticsResource:
         response = await self._client.get(
             "/analytics/summary",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -313,7 +309,6 @@ class AsyncAnalyticsResource:
         response = await self._client.get(
             "/analytics/timeseries",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
@@ -355,7 +350,6 @@ class AsyncAnalyticsResource:
         response = await self._client.get(
             "/analytics/events",
             params=params,
-            headers=request_headers(options),
             timeout=request_timeout(options),
         )
         raise_for_response(response)
