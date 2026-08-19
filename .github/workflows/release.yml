@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi # must match the Trusted Publisher configured on PyPI
+    permissions:
+      id-token: write # required for PyPI Trusted Publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: uv sync --all-extras
+      - run: uv run ruff check .
+      - run: uv run mypy src
+      - run: uv run pytest
+
+      - run: uv build
+
+      # OIDC Trusted Publishing: no PYPI_API_TOKEN needed as long as this
+      # repo/workflow/environment combination is registered as a pending
+      # publisher on PyPI. If that registration is ever lost or misconfigured,
+      # fall back to token auth by uncommenting the `password` line below
+      # (PYPI_API_TOKEN is already set as a repo secret as a safety net).
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # password: ${{ secrets.PYPI_API_TOKEN }}  # fallback if OIDC breaks
+          verbose: true

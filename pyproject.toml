@@ -1,0 +1,98 @@
+[project]
+name = "opa-sh"
+version = "0.1.0"
+description = "Official Python SDK for the Opa link shortener API"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Opa", email = "suporte@opa.sh" }
+]
+requires-python = ">=3.9"
+keywords = ["opa", "link-shortener", "url-shortener", "sdk", "api-client"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "httpx>=0.27",
+    "pydantic>=2.5",
+]
+
+[project.urls]
+Homepage = "https://opa.sh"
+Documentation = "https://opa.sh/docs/api"
+Repository = "https://github.com/espocalabs/opa-sdk-python"
+Issues = "https://github.com/espocalabs/opa-sdk-python/issues"
+Changelog = "https://github.com/espocalabs/opa-sdk-python/blob/master/CHANGELOG.md"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/opa_sh"]
+# `_generated/` (raw openapi-python-client output) is committed to git as a
+# diff target for the `sync-openapi` workflow, but never imported at runtime
+# by the hand-written public API in this package — shipping it would ~5x the
+# wheel size for zero functional benefit.
+exclude = ["src/opa_sh/_generated"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["src/opa_sh/_generated"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "respx>=0.21",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "openapi-python-client>=0.21",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+src = ["src", "tests"]
+extend-exclude = ["src/opa_sh/_generated"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# E501: line length handled by the formatter, not worth failing CI over.
+# RUF022: __all__ is intentionally grouped by category, not alphabetized.
+ignore = ["E501", "RUF022"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["opa_sh"]
+
+[tool.mypy]
+# mypy itself only analyzes for 3.10+; the package still declares and
+# supports python_requires >= 3.9 (see [project]) — this only affects
+# which syntax mypy's own checker assumes is available.
+python_version = "3.10"
+strict = true
+packages = ["opa_sh"]
+exclude = ["^src/opa_sh/_generated/"]
+
+[[tool.mypy.overrides]]
+module = "opa_sh._generated.*"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.uv]
+package = true

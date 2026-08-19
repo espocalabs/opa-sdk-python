@@ -1,0 +1,80 @@
+name: Sync OpenAPI
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily 6am UTC
+  workflow_dispatch: # also runnable manually
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch latest OpenAPI spec
+        run: curl -sL --fail https://api.opa.sh/v1/openapi -o openapi/v1.json
+
+      - name: Check if spec changed
+        id: diff
+        run: |
+          if git diff --quiet openapi/v1.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Regenerate the reference client
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          uv sync --all-extras
+          rm -rf src/opa_sh/_generated
+          uv run openapi-python-client generate \
+            --path openapi/v1.json \
+            --output-path src/opa_sh/_generated \
+            --overwrite \
+            --meta none
+
+      - name: Lint, typecheck, and test against the regenerated reference
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          uv run ruff check .
+          uv run mypy src
+          uv run pytest
+
+      - name: Create PR
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(spec): sync OpenAPI from api.opa.sh"
+          title: "chore(spec): sync OpenAPI from api.opa.sh"
+          body: |
+            Automated PR from the `sync-openapi` workflow.
+
+            The OpenAPI spec at https://api.opa.sh/v1/openapi changed since the
+            last sync. `openapi/v1.json` and the reference client at
+            `src/opa_sh/_generated` (not imported at runtime — see its module
+            docstring) were regenerated accordingly.
+
+            `mypy`/`pytest` passing here only proves the hand-written models in
+            `src/opa_sh/models.py` and resource wrappers in
+            `src/opa_sh/resources/*.py` still import and run — it does **not**
+            prove they cover every new field or endpoint. Review the spec diff
+            for:
+            - New paths/operations with no corresponding resource method yet.
+            - New response fields that should be added to the matching
+              `pydantic` model in `src/opa_sh/models.py`.
+            - New optional request fields that should be added to the matching
+              resource method's keyword arguments.
+            - Any breaking removal that should bump the major version and get
+              a `CHANGELOG.md` entry.
+          branch: chore/sync-openapi
+          delete-branch: true
