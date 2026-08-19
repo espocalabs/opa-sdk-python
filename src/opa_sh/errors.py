@@ -95,9 +95,17 @@ class NotFoundError(OpaError):
 class ConflictError(OpaError):
     """409 — the request conflicts with existing state.
 
-    Examples: a custom ``key`` that's already taken on the domain, or
-    ``no_domain_available`` when no domain was specified and the team has
-    none configured.
+    Example: ``no_domain_available`` when no domain was specified and the
+    team has none configured.
+
+    Note: ``openapi/v1.json`` doesn't document a 409 response for any
+    endpoint today, and a live check (2026-08-19) found that creating a
+    link with an already-taken custom ``key`` currently surfaces as a
+    ``500 internal_error`` (:class:`ServerError`), not this exception —
+    that looks like a backend gap (an unhandled unique-constraint
+    violation) rather than intended behavior. This class is kept for
+    forward compatibility and any 409 the API does return, but don't rely
+    on a duplicate ``key`` raising it.
     """
 
 

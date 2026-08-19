@@ -5,6 +5,62 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-08-19
+
+Built `examples/full_test.py` — an end-to-end smoke test that exercises
+every public method of both `OpaClient` and `AsyncOpaClient` against the
+**real** Opa API (not mocks) — and ran it. It found one real request-body
+bug, fixed here, plus two backend-side inconsistencies that aren't fixable
+from this repo (noted below for the API team).
+
+### Fixed
+
+- `opa.links.create()` / `opa.links.update()` sent `targeting` and
+  `qrSettings` as nested JSON objects when passed a `LinkTargeting` /
+  `QrSettings` instance. The API's request schema (confirmed against both
+  `openapi/v1.json`, which declares these fields as `type: string`, and
+  the live API, which 422s with `"Invalid input: expected string, received
+  object"` on both fields) expects a **JSON-encoded string**, not an
+  object — the response shape is an object, but the request shape isn't
+  the same shape. `build_body()` now `json.dumps()`s any
+  `pydantic.BaseModel` value instead of passing its dict through directly.
+  This was a real, previously-untested bug: no existing test asserted on
+  the serialized bytes for either field, so it shipped unnoticed in 0.2.0.
+- Corrected `ConflictError`'s docstring, which claimed a custom `key`
+  already taken on a domain raises it. A live check found that scenario
+  currently returns `500 internal_error` (surfacing as `ServerError`), not
+  409 — and `openapi/v1.json` doesn't document a 409 response for any
+  endpoint. The exception class is kept (for any 409 the API does return,
+  e.g. `no_domain_available`), but the misleading example is gone.
+
+### Known backend-side gaps (not SDK bugs — logged for the API team, no code
+change possible here)
+
+- `GET /links/{id}` archives via `DELETE /links/{id}` (`ArchiveLinkResult`
+  reports `archived: true`), but a subsequent `GET /links?archived=true` /
+  `archived=false` returns the same link in both, and `LinkSummary.disabled_at`
+  never populates. Either the archived-state filter isn't applied
+  server-side, or there's replication lag longer than immediate-consistency
+  callers would expect.
+- `GET /domains` returns `[]` for at least one real account that
+  successfully creates links against the implicit default domain — contradicts
+  its own documented contract ("verified custom domains plus the shared
+  app domain").
+- Creating a link with a `key` that's already taken returns `500
+  internal_error` instead of a `409`/`422` — looks like an unhandled
+  database unique-constraint violation rather than a validated conflict
+  response.
+
+### Added
+
+- `examples/` — a runnable smoke-test project (own `pyproject.toml`,
+  `.env.example`, README) that installs `opa-sh` editable from the parent
+  directory and runs `full_test.py` against a real account. Not part of
+  the published package.
+- 6 new regression tests (`tests/test_serialize.py`, plus 2 more in
+  `tests/test_links.py`) locking in the `targeting`/`qrSettings`
+  JSON-string serialization fix.
+
 ## [0.2.0] - 2026-08-19
 
 ### Breaking changes

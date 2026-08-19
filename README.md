@@ -113,7 +113,7 @@ except OpaError as e:
 | `AuthenticationError`    | 401         | Missing or invalid API key.                                       |
 | `PermissionDeniedError`  | 403         | Valid credential, insufficient permission or plan capability.     |
 | `NotFoundError`          | 404         | The resource doesn't exist.                                       |
-| `ConflictError`          | 409         | E.g. a custom `key` already taken, or no domain available.        |
+| `ConflictError`          | 409         | E.g. no domain available. Not documented for any endpoint in `openapi/v1.json` today. |
 | `ValidationError`        | 422         | Request body or query params failed validation.                   |
 | `RateLimitError`         | 429         | Rate limit hit — see `.retry_after` (seconds).                     |
 | `ServerError`            | 5xx         | Opa API had an internal error. Safe to retry.                     |

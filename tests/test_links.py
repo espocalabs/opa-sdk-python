@@ -2,7 +2,7 @@ import httpx
 import pytest
 import respx
 
-from opa_sh import OpaClient
+from opa_sh import LinkTargeting, OpaClient, QrSettings
 from opa_sh.errors import NotFoundError, ValidationError
 
 LINK_JSON = {
@@ -78,6 +78,53 @@ def test_create_link_omits_none_fields(mock_api: respx.MockRouter, opa: OpaClien
     opa.links.create(destination_url="https://example.com")
     body = json.loads(route.calls.last.request.content)
     assert body == {"destinationUrl": "https://example.com"}
+
+
+def test_create_link_serializes_targeting_and_qr_settings_as_json_strings(
+    mock_api: respx.MockRouter, opa: OpaClient
+) -> None:
+    """Regression test: the API's request schema (unlike its response
+    schema) declares `targeting`/`qrSettings` as JSON-encoded *strings*,
+    not nested objects — confirmed against the live API, which 422s with
+    "expected string, received object" if you send the raw object. See
+    `_internal/serialize.py::build_body`."""
+    import json
+
+    route = mock_api.post("/links").mock(return_value=httpx.Response(201, json={"data": LINK_JSON}))
+    opa.links.create(
+        destination_url="https://example.com",
+        targeting=LinkTargeting(ios="https://apps.apple.com/app/example"),
+        qr_settings=QrSettings(foreground_color="#000000"),
+    )
+    body = json.loads(route.calls.last.request.content)
+    assert isinstance(body["targeting"], str)
+    assert json.loads(body["targeting"]) == {"ios": "https://apps.apple.com/app/example"}
+    assert isinstance(body["qrSettings"], str)
+    assert json.loads(body["qrSettings"]) == {"foregroundColor": "#000000"}
+
+
+def test_update_link_serializes_targeting_and_qr_settings_as_json_strings(
+    mock_api: respx.MockRouter, opa: OpaClient
+) -> None:
+    import json
+
+    route = mock_api.patch("/links/lnk_1").mock(
+        return_value=httpx.Response(200, json={"data": LINK_JSON})
+    )
+    opa.links.update(
+        "lnk_1",
+        destination_url="https://example.com",
+        domain="opa.sh",
+        targeting=LinkTargeting(android="https://play.google.com/store/apps/details?id=com.example"),
+        qr_settings=QrSettings(error_correction_level="H"),
+    )
+    body = json.loads(route.calls.last.request.content)
+    assert isinstance(body["targeting"], str)
+    assert json.loads(body["targeting"]) == {
+        "android": "https://play.google.com/store/apps/details?id=com.example"
+    }
+    assert isinstance(body["qrSettings"], str)
+    assert json.loads(body["qrSettings"]) == {"errorCorrectionLevel": "H"}
 
 
 def test_get_link(mock_api: respx.MockRouter, opa: OpaClient) -> None:

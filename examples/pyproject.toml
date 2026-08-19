@@ -1,0 +1,15 @@
+[project]
+name = "opa-sh-full-test"
+version = "0.0.0"
+description = "End-to-end smoke test of opa-sh against the real Opa API"
+requires-python = ">=3.9"
+dependencies = [
+    "opa-sh",
+    "python-dotenv>=1.0",
+]
+
+[tool.uv.sources]
+opa-sh = { path = "..", editable = true }
+
+[tool.uv]
+package = false

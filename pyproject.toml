@@ -1,6 +1,6 @@
 [project]
 name = "opa-sh"
-version = "0.2.0"
+version = "0.2.1"
 description = "Official Python SDK for the Opa link shortener API"
 readme = "README.md"
 license = "MIT"
@@ -66,7 +66,10 @@ dev = [
 target-version = "py39"
 line-length = 100
 src = ["src", "tests"]
-extend-exclude = ["src/opa_sh/_generated"]
+# `examples/` is a standalone smoke-test project (its own pyproject.toml,
+# run against the live API, not shipped in the package) — not held to the
+# library's lint/type gates.
+extend-exclude = ["src/opa_sh/_generated", "examples"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
