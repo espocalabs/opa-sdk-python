@@ -1,3 +1,5 @@
+from typing import Optional
+
 import httpx
 import pytest
 
@@ -14,7 +16,7 @@ from opa_sh.errors import (
 )
 
 
-def _response(status: int, error_body: dict, headers: dict | None = None) -> httpx.Response:
+def _response(status: int, error_body: dict, headers: Optional[dict] = None) -> httpx.Response:
     return httpx.Response(
         status,
         json={"error": error_body},
