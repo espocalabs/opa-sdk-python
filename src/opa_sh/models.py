@@ -35,6 +35,7 @@ __all__ = [
     "AnalyticsTimeseriesPoint",
     "AnalyticsTimeseries",
     "AnalyticsEvent",
+    "IdentifyResult",
     "Page",
     "ArchiveLinkResult",
     "RestoreLinkResult",
@@ -236,6 +237,16 @@ class AnalyticsEvent(OpaModel):
     utm_campaign: str
     variant_url: str
     click_id: str
+
+
+# --- Tracking ---------------------------------------------------------------------
+
+
+class IdentifyResult(OpaModel):
+    customer_id: str
+    anonymous_id: str
+    external_id: str
+    merged: bool
 
 
 # --- Pagination --------------------------------------------------------------------
