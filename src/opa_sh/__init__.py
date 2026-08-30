@@ -25,8 +25,11 @@ from .models import (
     BulkMoveResult,
     BulkRestoreResult,
     BulkTagResult,
+    ConversionCustomer,
+    ConversionEvent,
     Domain,
     Folder,
+    IdentifyResult,
     Link,
     LinkSummary,
     LinkTargeting,
@@ -34,6 +37,8 @@ from .models import (
     QrSettings,
     RestoreLinkResult,
     Tag,
+    TrackConversionResult,
+    TrackEventResult,
 )
 from .resources import (
     AnalyticsResource,
@@ -91,4 +96,9 @@ __all__ = [
     "AnalyticsTimeseries",
     "AnalyticsTimeseriesPoint",
     "AnalyticsEvent",
+    "IdentifyResult",
+    "TrackEventResult",
+    "ConversionCustomer",
+    "ConversionEvent",
+    "TrackConversionResult",
 ]

@@ -37,6 +37,11 @@ def test_top_level_exports_exist() -> None:
         "LinkSummary",
         "Domain",
         "Page",
+        "IdentifyResult",
+        "TrackEventResult",
+        "ConversionCustomer",
+        "ConversionEvent",
+        "TrackConversionResult",
     ]:
         assert hasattr(opa_sh, name), f"opa_sh.{name} is missing"
 
