@@ -36,6 +36,7 @@ __all__ = [
     "AnalyticsTimeseries",
     "AnalyticsEvent",
     "IdentifyResult",
+    "TrackEventResult",
     "Page",
     "ArchiveLinkResult",
     "RestoreLinkResult",
@@ -247,6 +248,12 @@ class IdentifyResult(OpaModel):
     anonymous_id: str
     external_id: str
     merged: bool
+
+
+class TrackEventResult(OpaModel):
+    event_id: str
+    customer_id: str
+    deduped: bool
 
 
 # --- Pagination --------------------------------------------------------------------
