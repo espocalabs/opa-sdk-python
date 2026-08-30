@@ -25,8 +25,11 @@ from .models import (
     BulkMoveResult,
     BulkRestoreResult,
     BulkTagResult,
+    ConversionCustomer,
+    ConversionEvent,
     Domain,
     Folder,
+    IdentifyResult,
     Link,
     LinkSummary,
     LinkTargeting,
@@ -34,14 +37,18 @@ from .models import (
     QrSettings,
     RestoreLinkResult,
     Tag,
+    TrackConversionResult,
+    TrackEventResult,
 )
 from .resources import (
     AnalyticsResource,
     AsyncAnalyticsResource,
     AsyncDomainsResource,
     AsyncLinksResource,
+    AsyncTrackResource,
     DomainsResource,
     LinksResource,
+    TrackResource,
 )
 
 __all__ = [
@@ -67,6 +74,8 @@ __all__ = [
     "AsyncAnalyticsResource",
     "DomainsResource",
     "AsyncDomainsResource",
+    "TrackResource",
+    "AsyncTrackResource",
     # models
     "Link",
     "LinkSummary",
@@ -87,4 +96,9 @@ __all__ = [
     "AnalyticsTimeseries",
     "AnalyticsTimeseriesPoint",
     "AnalyticsEvent",
+    "IdentifyResult",
+    "TrackEventResult",
+    "ConversionCustomer",
+    "ConversionEvent",
+    "TrackConversionResult",
 ]

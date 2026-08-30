@@ -5,6 +5,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-08-30
+
+### Added
+
+- Stateless `opa.track` and async counterpart with `identify`, `event`, `lead`,
+  and `sale` operations.
+- Typed Pydantic response models for identity reconciliation, product events,
+  customers, and conversions.
+- Anonymous-to-known identity handoff without storing a current user in the
+  shared SDK client.
+
+`event_id` and `invoice_id` are the idempotency keys for automatic retries and
+webhook redelivery. The tracking contract remains hand-written until the
+canonical OpenAPI document publishes these endpoints.
+
 ## [0.2.1] - 2026-08-19
 
 Built `examples/full_test.py` — an end-to-end smoke test that exercises

@@ -1,6 +1,7 @@
 from .analytics import AnalyticsResource, AsyncAnalyticsResource
 from .domains import AsyncDomainsResource, DomainsResource
 from .links import AsyncLinksResource, LinksResource
+from .track import AsyncTrackResource, TrackResource
 
 __all__ = [
     "LinksResource",
@@ -9,4 +10,6 @@ __all__ = [
     "AsyncAnalyticsResource",
     "DomainsResource",
     "AsyncDomainsResource",
+    "TrackResource",
+    "AsyncTrackResource",
 ]

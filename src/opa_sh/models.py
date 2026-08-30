@@ -35,6 +35,11 @@ __all__ = [
     "AnalyticsTimeseriesPoint",
     "AnalyticsTimeseries",
     "AnalyticsEvent",
+    "IdentifyResult",
+    "TrackEventResult",
+    "ConversionCustomer",
+    "ConversionEvent",
+    "TrackConversionResult",
     "Page",
     "ArchiveLinkResult",
     "RestoreLinkResult",
@@ -236,6 +241,52 @@ class AnalyticsEvent(OpaModel):
     utm_campaign: str
     variant_url: str
     click_id: str
+
+
+# --- Tracking ---------------------------------------------------------------------
+
+
+class IdentifyResult(OpaModel):
+    customer_id: str
+    anonymous_id: str
+    external_id: str
+    merged: bool
+
+
+class TrackEventResult(OpaModel):
+    event_id: str
+    customer_id: str
+    deduped: bool
+
+
+class ConversionCustomer(OpaModel):
+    id: str
+    external_id: str
+    email: Optional[str] = None
+    name: Optional[str] = None
+    avatar: Optional[str] = None
+    created_at: str
+
+
+class ConversionEvent(OpaModel):
+    id: str
+    event_type: str
+    event_name: str
+    click_id: Optional[str] = None
+    customer_id: str
+    value_cents: Optional[int] = None
+    currency: Optional[str] = None
+    invoice_id: Optional[str] = None
+    payment_processor: Optional[str] = None
+    metadata: Optional[dict[str, object]] = None
+    occurred_at: str
+    created_at: str
+
+
+class TrackConversionResult(OpaModel):
+    event: ConversionEvent
+    customer: ConversionCustomer
+    deduped: bool
 
 
 # --- Pagination --------------------------------------------------------------------
