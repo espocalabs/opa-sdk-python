@@ -7,7 +7,7 @@ import httpx
 from .._internal.request_options import RequestOptions, request_timeout
 from .._internal.serialize import build_body
 from ..errors import raise_for_response
-from ..models import IdentifyResult, TrackEventResult
+from ..models import IdentifyResult, TrackConversionResult, TrackEventResult
 
 
 class TrackResource:
@@ -68,6 +68,35 @@ class TrackResource:
         raise_for_response(response)
         return TrackEventResult.model_validate(response.json()["data"])
 
+    def lead(
+        self,
+        *,
+        click_id: str,
+        event_name: str,
+        customer_external_id: str,
+        customer_email: Optional[str] = None,
+        customer_name: Optional[str] = None,
+        customer_avatar: Optional[str] = None,
+        metadata: Optional[dict[str, Any]] = None,
+        options: Optional[RequestOptions] = None,
+    ) -> TrackConversionResult:
+        """Records a lead using the API's existing conversion wire contract."""
+        response = self._client.post(
+            "/track/lead",
+            json=build_body(
+                click_id=click_id,
+                event_name=event_name,
+                customer_external_id=customer_external_id,
+                customer_email=customer_email,
+                customer_name=customer_name,
+                customer_avatar=customer_avatar,
+                metadata=metadata,
+            ),
+            timeout=request_timeout(options),
+        )
+        raise_for_response(response)
+        return TrackConversionResult.model_validate(response.json()["data"])
+
 
 class AsyncTrackResource:
     """Async equivalent of :class:`TrackResource`."""
@@ -124,3 +153,31 @@ class AsyncTrackResource:
         )
         raise_for_response(response)
         return TrackEventResult.model_validate(response.json()["data"])
+
+    async def lead(
+        self,
+        *,
+        click_id: str,
+        event_name: str,
+        customer_external_id: str,
+        customer_email: Optional[str] = None,
+        customer_name: Optional[str] = None,
+        customer_avatar: Optional[str] = None,
+        metadata: Optional[dict[str, Any]] = None,
+        options: Optional[RequestOptions] = None,
+    ) -> TrackConversionResult:
+        response = await self._client.post(
+            "/track/lead",
+            json=build_body(
+                click_id=click_id,
+                event_name=event_name,
+                customer_external_id=customer_external_id,
+                customer_email=customer_email,
+                customer_name=customer_name,
+                customer_avatar=customer_avatar,
+                metadata=metadata,
+            ),
+            timeout=request_timeout(options),
+        )
+        raise_for_response(response)
+        return TrackConversionResult.model_validate(response.json()["data"])
