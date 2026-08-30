@@ -40,8 +40,10 @@ from .resources import (
     AsyncAnalyticsResource,
     AsyncDomainsResource,
     AsyncLinksResource,
+    AsyncTrackResource,
     DomainsResource,
     LinksResource,
+    TrackResource,
 )
 
 __all__ = [
@@ -67,6 +69,8 @@ __all__ = [
     "AsyncAnalyticsResource",
     "DomainsResource",
     "AsyncDomainsResource",
+    "TrackResource",
+    "AsyncTrackResource",
     # models
     "Link",
     "LinkSummary",

@@ -9,6 +9,7 @@ from ._internal.version import __version__
 from .resources.analytics import AnalyticsResource, AsyncAnalyticsResource
 from .resources.domains import AsyncDomainsResource, DomainsResource
 from .resources.links import AsyncLinksResource, LinksResource
+from .resources.track import AsyncTrackResource, TrackResource
 from .retry import AsyncRetryTransport, RetryTransport
 
 __all__ = ["OpaClient", "AsyncOpaClient", "DEFAULT_BASE_URL"]
@@ -70,6 +71,7 @@ class OpaClient:
         self.links = LinksResource(self._client)
         self.analytics = AnalyticsResource(self._client)
         self.domains = DomainsResource(self._client)
+        self.track = TrackResource(self._client)
 
     def close(self) -> None:
         """Closes the underlying HTTP connection pool."""
@@ -124,6 +126,7 @@ class AsyncOpaClient:
         self.links = AsyncLinksResource(self._client)
         self.analytics = AsyncAnalyticsResource(self._client)
         self.domains = AsyncDomainsResource(self._client)
+        self.track = AsyncTrackResource(self._client)
 
     async def close(self) -> None:
         """Closes the underlying HTTP connection pool."""

@@ -31,6 +31,8 @@ def test_top_level_exports_exist() -> None:
         "AsyncAnalyticsResource",
         "DomainsResource",
         "AsyncDomainsResource",
+        "TrackResource",
+        "AsyncTrackResource",
         "Link",
         "LinkSummary",
         "Domain",
@@ -57,21 +59,23 @@ def test_error_hierarchy() -> None:
     assert issubclass(opa_sh.OpaError, Exception)
 
 
-def test_client_classes_expose_all_three_resources() -> None:
+def test_client_classes_expose_all_four_resources() -> None:
     opa = opa_sh.OpaClient(api_key="test_key")
     try:
         assert isinstance(opa.links, opa_sh.LinksResource)
         assert isinstance(opa.analytics, opa_sh.AnalyticsResource)
         assert isinstance(opa.domains, opa_sh.DomainsResource)
+        assert isinstance(opa.track, opa_sh.TrackResource)
     finally:
         opa.close()
 
 
-def test_async_client_classes_expose_all_three_resources() -> None:
+def test_async_client_classes_expose_all_four_resources() -> None:
     opa = opa_sh.AsyncOpaClient(api_key="test_key")
     assert isinstance(opa.links, opa_sh.AsyncLinksResource)
     assert isinstance(opa.analytics, opa_sh.AsyncAnalyticsResource)
     assert isinstance(opa.domains, opa_sh.AsyncDomainsResource)
+    assert isinstance(opa.track, opa_sh.AsyncTrackResource)
 
 
 def test_link_model_round_trips_camelcase_json() -> None:
