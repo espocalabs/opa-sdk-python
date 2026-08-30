@@ -115,7 +115,9 @@ def test_update_link_serializes_targeting_and_qr_settings_as_json_strings(
         "lnk_1",
         destination_url="https://example.com",
         domain="opa.sh",
-        targeting=LinkTargeting(android="https://play.google.com/store/apps/details?id=com.example"),
+        targeting=LinkTargeting(
+            android="https://play.google.com/store/apps/details?id=com.example"
+        ),
         qr_settings=QrSettings(error_correction_level="H"),
     )
     body = json.loads(route.calls.last.request.content)
