@@ -195,3 +195,80 @@ async def test_lead_async_omits_absent_optional_fields(mock_api: respx.MockRoute
         "customerExternalId": "user_1",
     }
     assert result.customer.id == "cus_1"
+
+
+def test_sale_sync_sends_defaults_and_invoice_id(mock_api: respx.MockRouter) -> None:
+    sale_json = {
+        **CONVERSION_JSON,
+        "event": {
+            **CONVERSION_JSON["event"],
+            "eventType": "sale",
+            "eventName": "Purchase",
+            "valueCents": 14990,
+            "currency": "brl",
+            "invoiceId": "inv_1",
+        },
+    }
+    route = mock_api.post("/track/sale").mock(
+        return_value=httpx.Response(200, json={"data": sale_json})
+    )
+
+    with OpaClient(api_key="test_key") as opa:
+        result = opa.track.sale(
+            customer_external_id="user_1",
+            amount=14990,
+            invoice_id="inv_1",
+        )
+
+    assert json.loads(route.calls.last.request.content) == {
+        "customerExternalId": "user_1",
+        "amount": 14990,
+        "currency": "brl",
+        "eventName": "Purchase",
+        "invoiceId": "inv_1",
+    }
+    assert result.event.value_cents == 14990
+    assert result.event.invoice_id == "inv_1"
+
+
+@pytest.mark.asyncio
+async def test_sale_async_uses_legacy_wire_contract(mock_api: respx.MockRouter) -> None:
+    sale_json = {
+        **CONVERSION_JSON,
+        "event": {
+            **CONVERSION_JSON["event"],
+            "eventType": "sale",
+            "eventName": "Order paid",
+            "valueCents": 14990,
+            "currency": "brl",
+            "invoiceId": "inv_1",
+            "paymentProcessor": "stripe",
+        },
+    }
+    route = mock_api.post("/track/sale").mock(
+        return_value=httpx.Response(200, json={"data": sale_json})
+    )
+
+    async with AsyncOpaClient(api_key="test_key") as opa:
+        result = await opa.track.sale(
+            customer_external_id="user_1",
+            amount=14990,
+            currency="BRL",
+            event_name="Order paid",
+            payment_processor="stripe",
+            invoice_id="inv_1",
+            click_id="clk_1",
+            metadata={"orderId": "ord_1"},
+        )
+
+    assert json.loads(route.calls.last.request.content) == {
+        "customerExternalId": "user_1",
+        "amount": 14990,
+        "currency": "BRL",
+        "eventName": "Order paid",
+        "paymentProcessor": "stripe",
+        "invoiceId": "inv_1",
+        "clickId": "clk_1",
+        "metadata": {"orderId": "ord_1"},
+    }
+    assert result.event.payment_processor == "stripe"

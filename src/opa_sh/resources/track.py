@@ -97,6 +97,37 @@ class TrackResource:
         raise_for_response(response)
         return TrackConversionResult.model_validate(response.json()["data"])
 
+    def sale(
+        self,
+        *,
+        customer_external_id: str,
+        amount: int,
+        currency: str = "brl",
+        event_name: str = "Purchase",
+        payment_processor: Optional[str] = None,
+        invoice_id: Optional[str] = None,
+        click_id: Optional[str] = None,
+        metadata: Optional[dict[str, Any]] = None,
+        options: Optional[RequestOptions] = None,
+    ) -> TrackConversionResult:
+        """Records a sale; provide ``invoice_id`` so automatic retries are idempotent."""
+        response = self._client.post(
+            "/track/sale",
+            json=build_body(
+                customer_external_id=customer_external_id,
+                amount=amount,
+                currency=currency,
+                event_name=event_name,
+                payment_processor=payment_processor,
+                invoice_id=invoice_id,
+                click_id=click_id,
+                metadata=metadata,
+            ),
+            timeout=request_timeout(options),
+        )
+        raise_for_response(response)
+        return TrackConversionResult.model_validate(response.json()["data"])
+
 
 class AsyncTrackResource:
     """Async equivalent of :class:`TrackResource`."""
@@ -175,6 +206,36 @@ class AsyncTrackResource:
                 customer_email=customer_email,
                 customer_name=customer_name,
                 customer_avatar=customer_avatar,
+                metadata=metadata,
+            ),
+            timeout=request_timeout(options),
+        )
+        raise_for_response(response)
+        return TrackConversionResult.model_validate(response.json()["data"])
+
+    async def sale(
+        self,
+        *,
+        customer_external_id: str,
+        amount: int,
+        currency: str = "brl",
+        event_name: str = "Purchase",
+        payment_processor: Optional[str] = None,
+        invoice_id: Optional[str] = None,
+        click_id: Optional[str] = None,
+        metadata: Optional[dict[str, Any]] = None,
+        options: Optional[RequestOptions] = None,
+    ) -> TrackConversionResult:
+        response = await self._client.post(
+            "/track/sale",
+            json=build_body(
+                customer_external_id=customer_external_id,
+                amount=amount,
+                currency=currency,
+                event_name=event_name,
+                payment_processor=payment_processor,
+                invoice_id=invoice_id,
+                click_id=click_id,
                 metadata=metadata,
             ),
             timeout=request_timeout(options),
