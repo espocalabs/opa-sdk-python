@@ -33,12 +33,17 @@ class PatchLinksIdBody:
         expires_at (str | Unset):  Default: ''.
         expired_url (str | Unset):  Default: ''.
         do_index (bool | Unset):  Default: False.
+        track_conversions (bool | Unset):  Default: False.
         password (str | Unset):  Default: ''.
         clear_password (bool | Unset):  Default: False.
         test_variants (str | Unset):  Default: ''.
         test_completed_at (str | Unset):  Default: ''.
-        targeting (str | Unset):  Default: ''.
-        qr_settings (str | Unset):  Default: ''.
+        targeting (str | Unset): Device/geo redirect overrides. A JSON-encoded string (`JSON.stringify`d) matching
+            `LinkTargeting` — or the plain object itself, which is JSON-encoded automatically. An empty string (the default)
+            means no targeting. Requires the `targeting` plan capability. Default: ''.
+        qr_settings (str | Unset): Per-link QR code style override. A JSON-encoded string (`JSON.stringify`d) matching
+            the QR settings shape — or the plain object itself, which is JSON-encoded automatically. An empty string (the
+            default) inherits the account-level default. Requires the `qrCustomization` plan capability. Default: ''.
     """
 
     destination_url: str
@@ -59,6 +64,7 @@ class PatchLinksIdBody:
     expires_at: str | Unset = ""
     expired_url: str | Unset = ""
     do_index: bool | Unset = False
+    track_conversions: bool | Unset = False
     password: str | Unset = ""
     clear_password: bool | Unset = False
     test_variants: str | Unset = ""
@@ -105,6 +111,8 @@ class PatchLinksIdBody:
         expired_url = self.expired_url
 
         do_index = self.do_index
+
+        track_conversions = self.track_conversions
 
         password = self.password
 
@@ -158,6 +166,8 @@ class PatchLinksIdBody:
             field_dict["expiredUrl"] = expired_url
         if do_index is not UNSET:
             field_dict["doIndex"] = do_index
+        if track_conversions is not UNSET:
+            field_dict["trackConversions"] = track_conversions
         if password is not UNSET:
             field_dict["password"] = password
         if clear_password is not UNSET:
@@ -212,6 +222,8 @@ class PatchLinksIdBody:
 
         do_index = d.pop("doIndex", UNSET)
 
+        track_conversions = d.pop("trackConversions", UNSET)
+
         password = d.pop("password", UNSET)
 
         clear_password = d.pop("clearPassword", UNSET)
@@ -243,6 +255,7 @@ class PatchLinksIdBody:
             expires_at=expires_at,
             expired_url=expired_url,
             do_index=do_index,
+            track_conversions=track_conversions,
             password=password,
             clear_password=clear_password,
             test_variants=test_variants,

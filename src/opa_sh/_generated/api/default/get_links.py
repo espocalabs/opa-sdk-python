@@ -19,7 +19,7 @@ def _get_kwargs(
     after: str | Unset = UNSET,
     before: str | Unset = UNSET,
     search: str | Unset = UNSET,
-    archived: bool | Unset = False,
+    archived: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -105,12 +105,12 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 20,
     after: str | Unset = UNSET,
     before: str | Unset = UNSET,
     search: str | Unset = UNSET,
-    archived: bool | Unset = False,
+    archived: str | Unset = UNSET,
 ) -> Response[
     GetLinksResponse200
     | GetLinksResponse401
@@ -132,8 +132,7 @@ def sync_detailed(
             newer than it. Mutually exclusive with `after`.
         search (str | Unset): Case-insensitive substring match against the short link, destination
             URL, folder name, or tag name.
-        archived (bool | Unset): `false` (default) lists active links; `true` lists archived ones.
-            Default: False.
+        archived (str | Unset): `false` (default) lists active links; `true` lists archived ones.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -160,12 +159,12 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 20,
     after: str | Unset = UNSET,
     before: str | Unset = UNSET,
     search: str | Unset = UNSET,
-    archived: bool | Unset = False,
+    archived: str | Unset = UNSET,
 ) -> (
     GetLinksResponse200
     | GetLinksResponse401
@@ -188,8 +187,7 @@ def sync(
             newer than it. Mutually exclusive with `after`.
         search (str | Unset): Case-insensitive substring match against the short link, destination
             URL, folder name, or tag name.
-        archived (bool | Unset): `false` (default) lists active links; `true` lists archived ones.
-            Default: False.
+        archived (str | Unset): `false` (default) lists active links; `true` lists archived ones.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -211,12 +209,12 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 20,
     after: str | Unset = UNSET,
     before: str | Unset = UNSET,
     search: str | Unset = UNSET,
-    archived: bool | Unset = False,
+    archived: str | Unset = UNSET,
 ) -> Response[
     GetLinksResponse200
     | GetLinksResponse401
@@ -238,8 +236,7 @@ async def asyncio_detailed(
             newer than it. Mutually exclusive with `after`.
         search (str | Unset): Case-insensitive substring match against the short link, destination
             URL, folder name, or tag name.
-        archived (bool | Unset): `false` (default) lists active links; `true` lists archived ones.
-            Default: False.
+        archived (str | Unset): `false` (default) lists active links; `true` lists archived ones.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -264,12 +261,12 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 20,
     after: str | Unset = UNSET,
     before: str | Unset = UNSET,
     search: str | Unset = UNSET,
-    archived: bool | Unset = False,
+    archived: str | Unset = UNSET,
 ) -> (
     GetLinksResponse200
     | GetLinksResponse401
@@ -292,8 +289,7 @@ async def asyncio(
             newer than it. Mutually exclusive with `after`.
         search (str | Unset): Case-insensitive substring match against the short link, destination
             URL, folder name, or tag name.
-        archived (bool | Unset): `false` (default) lists active links; `true` lists archived ones.
-            Default: False.
+        archived (str | Unset): `false` (default) lists active links; `true` lists archived ones.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
