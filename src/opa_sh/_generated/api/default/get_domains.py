@@ -83,7 +83,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[
     GetDomainsResponse200
     | GetDomainsResponse401
@@ -93,8 +93,10 @@ def sync_detailed(
 ]:
     """List usable domains
 
-     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains plus
-    every verified shared (APP_DOMAIN) domain.
+     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains, every
+    verified shared (APP_DOMAIN) domain, plus any APP_DEFAULT domain — a domain `POST /links` would
+    default to when `domain` is omitted from the body, even if it doesn't have a row of its own yet
+    (e.g. a fresh install's shared short domain).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,7 +117,7 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> (
     GetDomainsResponse200
     | GetDomainsResponse401
@@ -126,8 +128,10 @@ def sync(
 ):
     """List usable domains
 
-     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains plus
-    every verified shared (APP_DOMAIN) domain.
+     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains, every
+    verified shared (APP_DOMAIN) domain, plus any APP_DEFAULT domain — a domain `POST /links` would
+    default to when `domain` is omitted from the body, even if it doesn't have a row of its own yet
+    (e.g. a fresh install's shared short domain).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,7 +148,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[
     GetDomainsResponse200
     | GetDomainsResponse401
@@ -154,8 +158,10 @@ async def asyncio_detailed(
 ]:
     """List usable domains
 
-     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains plus
-    every verified shared (APP_DOMAIN) domain.
+     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains, every
+    verified shared (APP_DOMAIN) domain, plus any APP_DEFAULT domain — a domain `POST /links` would
+    default to when `domain` is omitted from the body, even if it doesn't have a row of its own yet
+    (e.g. a fresh install's shared short domain).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -174,7 +180,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> (
     GetDomainsResponse200
     | GetDomainsResponse401
@@ -185,8 +191,10 @@ async def asyncio(
 ):
     """List usable domains
 
-     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains plus
-    every verified shared (APP_DOMAIN) domain.
+     Domains this organization can use as a link's `domain`: its own custom (USER_DOMAIN) domains, every
+    verified shared (APP_DOMAIN) domain, plus any APP_DEFAULT domain — a domain `POST /links` would
+    default to when `domain` is omitted from the body, even if it doesn't have a row of its own yet
+    (e.g. a fresh install's shared short domain).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

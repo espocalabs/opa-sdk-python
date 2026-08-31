@@ -129,7 +129,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 100,
     before: str | Unset = UNSET,
     link_id: str | Unset = UNSET,
@@ -153,10 +153,9 @@ def sync_detailed(
     """Analytics events
 
      The raw per-click event stream, cursor-paginated (`limit`/`before`) and optionally filtered by
-    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from the
-    real-time event stream (Cloudflare Analytics Engine), never the aggregated Postgres table those two
-    endpoints use, so results reflect clicks within seconds. Same field set as the dashboard's events
-    table, no reduction.
+    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from
+    Tinybird's raw event pipe, never the aggregated pipes those two endpoints use, so results reflect
+    clicks within seconds. Same field set as the dashboard's events table, no reduction.
 
     Args:
         limit (int | Unset): Items per page. 1-500, default 100. Default: 100.
@@ -210,7 +209,7 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 100,
     before: str | Unset = UNSET,
     link_id: str | Unset = UNSET,
@@ -235,10 +234,9 @@ def sync(
     """Analytics events
 
      The raw per-click event stream, cursor-paginated (`limit`/`before`) and optionally filtered by
-    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from the
-    real-time event stream (Cloudflare Analytics Engine), never the aggregated Postgres table those two
-    endpoints use, so results reflect clicks within seconds. Same field set as the dashboard's events
-    table, no reduction.
+    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from
+    Tinybird's raw event pipe, never the aggregated pipes those two endpoints use, so results reflect
+    clicks within seconds. Same field set as the dashboard's events table, no reduction.
 
     Args:
         limit (int | Unset): Items per page. 1-500, default 100. Default: 100.
@@ -287,7 +285,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 100,
     before: str | Unset = UNSET,
     link_id: str | Unset = UNSET,
@@ -311,10 +309,9 @@ async def asyncio_detailed(
     """Analytics events
 
      The raw per-click event stream, cursor-paginated (`limit`/`before`) and optionally filtered by
-    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from the
-    real-time event stream (Cloudflare Analytics Engine), never the aggregated Postgres table those two
-    endpoints use, so results reflect clicks within seconds. Same field set as the dashboard's events
-    table, no reduction.
+    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from
+    Tinybird's raw event pipe, never the aggregated pipes those two endpoints use, so results reflect
+    clicks within seconds. Same field set as the dashboard's events table, no reduction.
 
     Args:
         limit (int | Unset): Items per page. 1-500, default 100. Default: 100.
@@ -366,7 +363,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     limit: int | Unset = 100,
     before: str | Unset = UNSET,
     link_id: str | Unset = UNSET,
@@ -391,10 +388,9 @@ async def asyncio(
     """Analytics events
 
      The raw per-click event stream, cursor-paginated (`limit`/`before`) and optionally filtered by
-    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from the
-    real-time event stream (Cloudflare Analytics Engine), never the aggregated Postgres table those two
-    endpoints use, so results reflect clicks within seconds. Same field set as the dashboard's events
-    table, no reduction.
+    dimension — same filters as `analytics/summary`/`analytics/timeseries`. Pulled directly from
+    Tinybird's raw event pipe, never the aggregated pipes those two endpoints use, so results reflect
+    clicks within seconds. Same field set as the dashboard's events table, no reduction.
 
     Args:
         limit (int | Unset): Items per page. 1-500, default 100. Default: 100.

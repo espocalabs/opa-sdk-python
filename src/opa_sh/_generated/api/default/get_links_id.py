@@ -89,7 +89,7 @@ def _build_response(
 def sync_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[
     GetLinksIdResponse200
     | GetLinksIdResponse401
@@ -126,7 +126,7 @@ def sync_detailed(
 def sync(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> (
     GetLinksIdResponse200
     | GetLinksIdResponse401
@@ -159,7 +159,7 @@ def sync(
 async def asyncio_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[
     GetLinksIdResponse200
     | GetLinksIdResponse401
@@ -194,7 +194,7 @@ async def asyncio_detailed(
 async def asyncio(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> (
     GetLinksIdResponse200
     | GetLinksIdResponse401

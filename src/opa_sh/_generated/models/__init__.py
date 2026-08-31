@@ -319,6 +319,78 @@ from .post_links_response_422_error import PostLinksResponse422Error
 from .post_links_response_422_error_issues_item import PostLinksResponse422ErrorIssuesItem
 from .post_links_response_429 import PostLinksResponse429
 from .post_links_response_429_error import PostLinksResponse429Error
+from .post_track_event_body_type_0 import PostTrackEventBodyType0
+from .post_track_event_body_type_0_properties import PostTrackEventBodyType0Properties
+from .post_track_event_body_type_1 import PostTrackEventBodyType1
+from .post_track_event_body_type_1_properties import PostTrackEventBodyType1Properties
+from .post_track_event_response_200 import PostTrackEventResponse200
+from .post_track_event_response_200_data import PostTrackEventResponse200Data
+from .post_track_event_response_401 import PostTrackEventResponse401
+from .post_track_event_response_401_error import PostTrackEventResponse401Error
+from .post_track_event_response_403 import PostTrackEventResponse403
+from .post_track_event_response_403_error import PostTrackEventResponse403Error
+from .post_track_event_response_409 import PostTrackEventResponse409
+from .post_track_event_response_409_error import PostTrackEventResponse409Error
+from .post_track_event_response_422 import PostTrackEventResponse422
+from .post_track_event_response_422_error import PostTrackEventResponse422Error
+from .post_track_event_response_422_error_issues_item import (
+    PostTrackEventResponse422ErrorIssuesItem,
+)
+from .post_track_event_response_429 import PostTrackEventResponse429
+from .post_track_event_response_429_error import PostTrackEventResponse429Error
+from .post_track_identify_body import PostTrackIdentifyBody
+from .post_track_identify_body_traits import PostTrackIdentifyBodyTraits
+from .post_track_identify_response_200 import PostTrackIdentifyResponse200
+from .post_track_identify_response_200_data import PostTrackIdentifyResponse200Data
+from .post_track_identify_response_401 import PostTrackIdentifyResponse401
+from .post_track_identify_response_401_error import PostTrackIdentifyResponse401Error
+from .post_track_identify_response_403 import PostTrackIdentifyResponse403
+from .post_track_identify_response_403_error import PostTrackIdentifyResponse403Error
+from .post_track_identify_response_409 import PostTrackIdentifyResponse409
+from .post_track_identify_response_409_error import PostTrackIdentifyResponse409Error
+from .post_track_identify_response_422 import PostTrackIdentifyResponse422
+from .post_track_identify_response_422_error import PostTrackIdentifyResponse422Error
+from .post_track_identify_response_422_error_issues_item import (
+    PostTrackIdentifyResponse422ErrorIssuesItem,
+)
+from .post_track_identify_response_429 import PostTrackIdentifyResponse429
+from .post_track_identify_response_429_error import PostTrackIdentifyResponse429Error
+from .post_track_lead_body import PostTrackLeadBody
+from .post_track_lead_body_metadata import PostTrackLeadBodyMetadata
+from .post_track_lead_response_200 import PostTrackLeadResponse200
+from .post_track_lead_response_200_data import PostTrackLeadResponse200Data
+from .post_track_lead_response_200_data_customer import PostTrackLeadResponse200DataCustomer
+from .post_track_lead_response_200_data_event import PostTrackLeadResponse200DataEvent
+from .post_track_lead_response_200_data_event_metadata_type_0 import (
+    PostTrackLeadResponse200DataEventMetadataType0,
+)
+from .post_track_lead_response_401 import PostTrackLeadResponse401
+from .post_track_lead_response_401_error import PostTrackLeadResponse401Error
+from .post_track_lead_response_403 import PostTrackLeadResponse403
+from .post_track_lead_response_403_error import PostTrackLeadResponse403Error
+from .post_track_lead_response_422 import PostTrackLeadResponse422
+from .post_track_lead_response_422_error import PostTrackLeadResponse422Error
+from .post_track_lead_response_422_error_issues_item import PostTrackLeadResponse422ErrorIssuesItem
+from .post_track_lead_response_429 import PostTrackLeadResponse429
+from .post_track_lead_response_429_error import PostTrackLeadResponse429Error
+from .post_track_sale_body import PostTrackSaleBody
+from .post_track_sale_body_metadata import PostTrackSaleBodyMetadata
+from .post_track_sale_response_200 import PostTrackSaleResponse200
+from .post_track_sale_response_200_data import PostTrackSaleResponse200Data
+from .post_track_sale_response_200_data_customer import PostTrackSaleResponse200DataCustomer
+from .post_track_sale_response_200_data_event import PostTrackSaleResponse200DataEvent
+from .post_track_sale_response_200_data_event_metadata_type_0 import (
+    PostTrackSaleResponse200DataEventMetadataType0,
+)
+from .post_track_sale_response_401 import PostTrackSaleResponse401
+from .post_track_sale_response_401_error import PostTrackSaleResponse401Error
+from .post_track_sale_response_403 import PostTrackSaleResponse403
+from .post_track_sale_response_403_error import PostTrackSaleResponse403Error
+from .post_track_sale_response_422 import PostTrackSaleResponse422
+from .post_track_sale_response_422_error import PostTrackSaleResponse422Error
+from .post_track_sale_response_422_error_issues_item import PostTrackSaleResponse422ErrorIssuesItem
+from .post_track_sale_response_429 import PostTrackSaleResponse429
+from .post_track_sale_response_429_error import PostTrackSaleResponse429Error
 
 __all__ = (
     "DeleteLinksIdResponse200",
@@ -540,4 +612,68 @@ __all__ = (
     "PostLinksResponse422ErrorIssuesItem",
     "PostLinksResponse429",
     "PostLinksResponse429Error",
+    "PostTrackEventBodyType0",
+    "PostTrackEventBodyType0Properties",
+    "PostTrackEventBodyType1",
+    "PostTrackEventBodyType1Properties",
+    "PostTrackEventResponse200",
+    "PostTrackEventResponse200Data",
+    "PostTrackEventResponse401",
+    "PostTrackEventResponse401Error",
+    "PostTrackEventResponse403",
+    "PostTrackEventResponse403Error",
+    "PostTrackEventResponse409",
+    "PostTrackEventResponse409Error",
+    "PostTrackEventResponse422",
+    "PostTrackEventResponse422Error",
+    "PostTrackEventResponse422ErrorIssuesItem",
+    "PostTrackEventResponse429",
+    "PostTrackEventResponse429Error",
+    "PostTrackIdentifyBody",
+    "PostTrackIdentifyBodyTraits",
+    "PostTrackIdentifyResponse200",
+    "PostTrackIdentifyResponse200Data",
+    "PostTrackIdentifyResponse401",
+    "PostTrackIdentifyResponse401Error",
+    "PostTrackIdentifyResponse403",
+    "PostTrackIdentifyResponse403Error",
+    "PostTrackIdentifyResponse409",
+    "PostTrackIdentifyResponse409Error",
+    "PostTrackIdentifyResponse422",
+    "PostTrackIdentifyResponse422Error",
+    "PostTrackIdentifyResponse422ErrorIssuesItem",
+    "PostTrackIdentifyResponse429",
+    "PostTrackIdentifyResponse429Error",
+    "PostTrackLeadBody",
+    "PostTrackLeadBodyMetadata",
+    "PostTrackLeadResponse200",
+    "PostTrackLeadResponse200Data",
+    "PostTrackLeadResponse200DataCustomer",
+    "PostTrackLeadResponse200DataEvent",
+    "PostTrackLeadResponse200DataEventMetadataType0",
+    "PostTrackLeadResponse401",
+    "PostTrackLeadResponse401Error",
+    "PostTrackLeadResponse403",
+    "PostTrackLeadResponse403Error",
+    "PostTrackLeadResponse422",
+    "PostTrackLeadResponse422Error",
+    "PostTrackLeadResponse422ErrorIssuesItem",
+    "PostTrackLeadResponse429",
+    "PostTrackLeadResponse429Error",
+    "PostTrackSaleBody",
+    "PostTrackSaleBodyMetadata",
+    "PostTrackSaleResponse200",
+    "PostTrackSaleResponse200Data",
+    "PostTrackSaleResponse200DataCustomer",
+    "PostTrackSaleResponse200DataEvent",
+    "PostTrackSaleResponse200DataEventMetadataType0",
+    "PostTrackSaleResponse401",
+    "PostTrackSaleResponse401Error",
+    "PostTrackSaleResponse403",
+    "PostTrackSaleResponse403Error",
+    "PostTrackSaleResponse422",
+    "PostTrackSaleResponse422Error",
+    "PostTrackSaleResponse422ErrorIssuesItem",
+    "PostTrackSaleResponse429",
+    "PostTrackSaleResponse429Error",
 )

@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class GetDomainsResponse200DataItemType(str, Enum):
+    APP_DEFAULT = "APP_DEFAULT"
     APP_DOMAIN = "APP_DOMAIN"
     USER_DOMAIN = "USER_DOMAIN"
 

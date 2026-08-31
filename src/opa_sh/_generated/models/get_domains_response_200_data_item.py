@@ -16,7 +16,9 @@ class GetDomainsResponse200DataItem:
     Attributes:
         id (str):
         domain (str):
-        type_ (GetDomainsResponse200DataItemType):
+        type_ (GetDomainsResponse200DataItemType): `USER_DOMAIN`/`APP_DOMAIN` are real rows in the `domains` table.
+            `APP_DEFAULT` is synthesized: a domain `POST /links` would actually default to (no `domain` in the body) that
+            doesn't have a row of its own yet — see the endpoint description.
         verified (bool):
         primary (bool):
         allowed_hosts (list[str]):
